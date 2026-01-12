@@ -1,0 +1,20 @@
+{
+  "routerMap": [
+    {
+      "name": "AddCaffeine",
+      "pageSourceFile": "src/main/ets/pages/AddCaffeine.ets",
+      "buildFunction": "AddCaffeineBuilder",
+      "data": {
+        "description": "AddCaffeine page"
+      }
+    },
+    {
+      "name": "CustomCaffeine",
+      "pageSourceFile": "src/main/ets/pages/CustomCaffeine.ets",
+      "buildFunction": "CustomCaffeineBuilder",
+      "data": {
+        "description": "CustomCaffeine page"
+      }
+    }
+  ]
+}

@@ -6,9 +6,9 @@
 # Preview
 
 <p align="left">
-    <img src="ScreenShots/ss1.png" width="25%" />
-    <img src="ScreenShots/ss2.png" width="25%" />
-    <img src="ScreenShots/ss3.png" width="25%" />
+    <img src="screenshots/ss1.png" width="25%" />
+    <img src="screenshots/ss2.png" width="25%" />
+    <img src="screenshots/ss3.png" width="25%" />
 </p>
 
 
@@ -28,14 +28,17 @@ Tracking daily caffeine usage
 
 # Directory Structure
 ```
-entry/src/main/ets/
-│   CaffeineStorage
-├── pages/
-│   ├── Index.ets
-│   ├── CustomCaffeine.ets
-│   └── AddCaffeine.ets
-└── resources/
-    └── module.json5
+entry/src/main/
+ ├── ets
+ │   │   CaffeineStorage
+ │   ├── pages/
+ │   │   ├── Index.ets
+ │   │   ├── CustomCaffeine.ets
+ │   │   └── AddCaffeine.ets
+ │   └── resources/
+ │       └── module.json5
+ │   
+ └── resources/base/profile/route_map.json
 ```
 
 

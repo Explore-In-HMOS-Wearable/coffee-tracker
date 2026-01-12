@@ -1,10 +1,11 @@
 import { getLast7Days } from '../CaffeineStorage';
-import router from '@ohos.router';
 import emitter from '@ohos.events.emitter';
 
 @Entry
 @Component
 struct Index {
+  pathStack: NavPathStack = new NavPathStack();
+
   @State data: number[] = [0, 0, 0, 0, 0, 0];
   private settings: RenderingContextSettings = new RenderingContextSettings(true)
   private context: CanvasRenderingContext2D = new CanvasRenderingContext2D(this.settings)
@@ -25,7 +26,7 @@ struct Index {
 
     // Draw axes + labels
     for (let i = 0; i < 4; i++) {
-      if (i == 0) {
+      if (i === 0) {
         this.context.strokeStyle = '#341100';
       } else {
         this.context.strokeStyle = '#cfab71';
@@ -80,45 +81,46 @@ struct Index {
   }
 
   async aboutToAppear() {
-    console.log("aboutToAppear");
-    this.data = await getLast7Days(getContext(this));
-    console.log("Data: ", this.data)
+    this.data = await getLast7Days(this.getUIContext().getHostContext() as Context);
+    console.info('Data: ', this.data)
     if (this.ctx) {
       this.drawGraph();
     }
     emitter.on({ eventId: 1 }, async () => {
-      this.data = await getLast7Days(getContext(this));
+      this.data = await getLast7Days(this.getUIContext().getHostContext() as Context);
       this.drawGraph();
     });
   }
 
   build() {
-    Column() {
-      Text((this.data[this.data.length - 1] ?? 0) + ' mg')
-        .fontSize(20)
-        .fontColor('#4f351c')
-      Text('caffeine today')
-        .fontSize(10)
-        .margin({ bottom: 10 })
-        .fontColor('#4f351c')
+    Navigation(this.pathStack) {
+      Column() {
+        Text((this.data[this.data.length - 1] ?? 0) + ' mg')
+          .fontSize(20)
+          .fontColor('#4f351c')
+        Text('caffeine today')
+          .fontSize(10)
+          .margin({ bottom: 10 })
+          .fontColor('#4f351c')
 
-      Canvas(this.context)
-        .width('100%')
-        .height('60%')
-        .onReady(() => {
-          this.ctx = this.context
-        })
-      Button('+')
-        .backgroundColor('#4f351c')
-        .fontColor('#cfab71')
-        .onClick(() => {
-          router.pushUrl({
-            url: 'pages/AddCaffeine'
+        Canvas(this.context)
+          .width('100%')
+          .height('60%')
+          .onReady(() => {
+            this.ctx = this.context
+          })
+        Button('+')
+          .backgroundColor('#4f351c')
+          .fontColor('#cfab71')
+          .onClick(() => {
+            this.pathStack.pushPathByName('AddCaffeine', null);
           });
-        });
+      }
+      .backgroundColor('#fff7e8')
+      .padding(20)
+      .justifyContent(FlexAlign.Center)
     }
-    .backgroundColor('#fff7e8')
-    .padding(20)
-    .justifyContent(FlexAlign.Center)
+    .mode(NavigationMode.Stack)
+    .hideTitleBar(true)
   }
 }
